@@ -14,7 +14,7 @@ public class MapEditor
 #if UNITY_EDITOR
 
 	[MenuItem("Tools/GenerateMap2 %#g")]
-	private static void Hello()
+	private static void GenerateMap2()
     {
 		GameObject go = GameObject.Find("Map");
         if (go == null)

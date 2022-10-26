@@ -5,7 +5,6 @@ using static Define;
 
 public class PController : MonoBehaviour
 {
-    public Grid _grid;
     public float _speed = 5.0f;
     bool _isMoving = false;
     Animator _animator;
@@ -66,7 +65,7 @@ public class PController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        Vector3 pos = _grid.CellToWorld(_cellPos)  + new Vector3(0.5f, 0.5f);
+        Vector3 pos = Managers.Map.CurrentGrid.CellToWorld(_cellPos)  + new Vector3(0.5f, 0.5f);
         transform.position = pos;
     }
 
@@ -81,26 +80,29 @@ public class PController : MonoBehaviour
     }
     void UpdateIsMoving()
     {
-        if (_isMoving == false)
+        if (_isMoving == false && _dir != _MoveDir.None)
         {
+            Vector3Int destPos = _cellPos;
+
             switch (_dir)
             {
                 case _MoveDir.Up:
-                    _cellPos += Vector3Int.up;
-                    _isMoving = true;
+                    destPos += Vector3Int.up;
                     break;
                 case _MoveDir.Down:
-                    _cellPos += Vector3Int.down;
-                    _isMoving = true;
+                    destPos += Vector3Int.down;
                     break;
                 case _MoveDir.Left:
-                    _cellPos += Vector3Int.left;
-                    _isMoving = true;
+                    destPos += Vector3Int.left;
                     break;
                 case _MoveDir.Right:
-                    _cellPos += Vector3Int.right;
-                    _isMoving = true;
+                    destPos += Vector3Int.right;
                     break;
+            }
+            if (Managers.Map.CanGo(destPos))
+            {
+                _cellPos = destPos;
+                _isMoving = true;
             }
 
         }
@@ -111,7 +113,7 @@ public class PController : MonoBehaviour
         {
             return;
         }
-        Vector3 destPos = _grid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.5f);
+        Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.5f);
         Vector3 moveDir = destPos - transform.position;
         Debug.Log("destPos" + destPos.x + "y" + destPos.y);
         float dist = moveDir.magnitude;
