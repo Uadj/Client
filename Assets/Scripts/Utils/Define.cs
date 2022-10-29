@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Define
 {
+    public enum _CreatureState
+    {
+        Idle,
+        Moving,
+        Jump,
+        Skill,
+    }
     public enum _MoveDir
     {
         None,

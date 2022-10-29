@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
-public class PController : CController
+public class MController : CController
 {
-   protected override void Init()
+
+    protected override void Init()
     {
         base.Init();
+        _State = _CreatureState.Idle;
+        _Dir = _MoveDir.None;
     }
     protected override void UpdateController()
     {
-        GetDirInput();
+        //GetDirInput();
         base.UpdateController();
     }
     void LateUpdate()
